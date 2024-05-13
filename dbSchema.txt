@@ -1,0 +1,89 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table users {
+  id integer pk
+  username varchar unique
+  password text
+  first_name varchar
+  last_name varchar
+  email varchar unique
+  birth_date date
+  address_id integer [ref: - user_address.id]
+  role_id integer [ref: > roles.id]
+  created_at timestamp
+}
+
+Table roles {
+  id integer pk
+  name varchar
+  isAdmin bool
+}
+
+Table user_address {
+  id integer pk
+  address_line1 varchar
+  address_line2 varchar
+  city varchar
+  postal_code varchar
+  country varchar
+}
+
+Table orders {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  status varchar
+  total money
+  created_at timestamp
+  modified_at timestamp
+}
+
+Table products {
+  id integer pk
+  name varchar
+  description text
+  brand_id integer [ref: > brands.id] //many-to-one
+  retail_price money
+  created_at timestamp
+}
+
+Table product_images {
+  id integer pk
+  url varchar unique
+  description text
+  product_id integer [ref: > products.id] //many-to-one
+}
+
+Table orders_products {
+  order_id integer [ref: > orders.id] //many-to-one
+  product_id integer [ref: > products.id] //many-to-one
+  quantity integer
+}
+
+Table categories {
+  id integer pk
+  name varchar
+  description text
+}
+
+Table products_categories {
+  product_id integer [ref: > products.id] //many-to-one
+  category_id integer [ref: > categories.id] //many-to-one
+}
+
+Table brands {
+  id integer pk
+  name varchar
+}
+
+Table brand_logo {
+  id integer pk
+  url varchar unique
+  description text
+  brand_id integer [ref: - brands.id] // one-to-one
+}
+
+
+
+//Ref: posts.user_id > users.id  many-to-one
+
