@@ -11,7 +11,6 @@ const pool = new Pool({
 });
 
 const query = (text, params, callback) => {
-    console.log(process.env.DB_SECRET);
     console.log('Querying database...');
     return pool.query(text, params, callback);
 }
