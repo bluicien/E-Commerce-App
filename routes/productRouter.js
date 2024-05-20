@@ -1,16 +1,17 @@
 const express = require('express');
 const productRouter = express.Router();
 
-const { db } = require('../db/index')
+const auth = require('../db/authenticate');
 const productDb = require('../db/productQuery')
 
 productRouter.get('/', productDb.getProducts);
-productRouter.post('/', productDb.postProduct)
+
+productRouter.post('/', auth.isAuthenticated, productDb.postProduct)
 
 productRouter.param('productId', productDb.productIdParam)
 
 productRouter.get('/:productId', productDb.getProductById)
-productRouter.put('/:productId', productDb.updateProduct)
-productRouter.delete('/:productId', productDb.deleteProduct);
+productRouter.put('/:productId', auth.isAuthenticated, productDb.updateProduct)
+productRouter.delete('/:productId', auth.isAuthenticated, productDb.deleteProduct);
 
 module.exports = productRouter;

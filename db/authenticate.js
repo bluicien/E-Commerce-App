@@ -3,20 +3,24 @@ const bcrypt = require('bcrypt');
 
 // Authenticate user
 const isAuthenticated = (req, res, next) => {
-    if (req.session.authenticated) {
-        next();
+    if (req.isAuthenticated()) {
+        return next();
     } else {
-        res.status(403).json({ msg: "You are not authorized to view this page"});
+        res.redirect('./login')
     }
 }
 
+
+
 // Authenticate and Authorize user
 const isAuthorized = (req, res, next) => {
-    if (req.session.authenticated && req.session.userId == req.userId) {
-        next();
-    } else {
-        res.status(403).json({ msg: "You are not authorized to view this page"})
-    }
+    const requestedUserId = req.params.userId;
+    const currentUserId = req.user.id;
+     if (requestedUserId === currentUserId) {
+        return next();
+     } else {
+        res.status(403).json({msg: "You are not authorized to view this page."})
+     }
 }
 
 // Password hashing function

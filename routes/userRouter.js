@@ -1,9 +1,8 @@
 const express = require('express');
 const userRouter = express.Router();
 
-const { db } = require('../db/index')
 const userDb = require('../db/userQuery');
-const { isAuthenticated, isAuthorized } = require('../db/authenticate');
+const auth = require('../db/authenticate');
 const passport = require('passport');
 
 
@@ -29,9 +28,9 @@ userRouter.get('/logout', (req, res) => {
 
 userRouter.param('userId', userDb.userIdParam)
 
-userRouter.get('/:userId', isAuthorized, userDb.getUserById);
-userRouter.put('/:userId', isAuthorized, userDb.updateUser);
-userRouter.delete('/:userId', isAuthorized, userDb.deleteUser);
+userRouter.get('/:userId', auth.isAuthenticated, auth.isAuthorized, userDb.getUserById);
+userRouter.put('/:userId', auth.isAuthenticated, auth.isAuthorized, userDb.updateUser);
+userRouter.delete('/:userId', auth.isAuthenticated, auth.isAuthorized, userDb.deleteUser);
 
 module.exports = userRouter;
 

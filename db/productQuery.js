@@ -5,6 +5,15 @@ const getProducts = (req, res) => {
         var text = 'SELECT * FROM products WHERE LOWER(name) = $1';
         var parameters = [req.query.name]
     }
+    else if (req.query.category) {
+        var text = 'SELECT products.*\
+            FROM categories\
+            INNER JOIN products_categories\
+                ON products_categories.category_id = categories.id AND LOWER(categories.name) = $1\
+            INNER JOIN products\
+                ON products.id = products_categories.product_id';
+        var parameters = [req.query.category]
+    }
     else {
         var text = 'SELECT * FROM products LIMIT 5'
     }
