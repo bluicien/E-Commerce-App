@@ -81,11 +81,29 @@ const deleteProduct = (req, res) => {
         res.status(200).send("Product deleted successfully.");
     });
 }
+
+const addToCart = (req, res) => {
+    const text = 'WITH user_cart AS (\
+        SELECT id FROM cart WHERE user_id = $1\
+      )\
+      INSERT INTO cart_products(cart_id, product_id, quantity)\
+      SELECT id, $2, $3 FROM user_cart';
+    const parameters = [req.user.id, req.productId, req.body.quantity]
+
+    db.query(text, parameters, (error, results) => {
+        if (error) {
+            res.status(400).json({msg: "Bad Request"});
+        }
+        res.redirect('/cart');
+    })
+}
+
 module.exports = {
     getProducts,
     productIdParam,
     getProductById,
     postProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    addToCart
 }

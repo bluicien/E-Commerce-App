@@ -13,5 +13,6 @@ productRouter.param('productId', productDb.productIdParam)
 productRouter.get('/:productId', productDb.getProductById)
 productRouter.put('/:productId', auth.isAuthenticated, productDb.updateProduct)
 productRouter.delete('/:productId', auth.isAuthenticated, productDb.deleteProduct);
+productRouter.put('/:productId/addtocart', auth.isAuthenticated, productDb.addToCart);
 
 module.exports = productRouter;

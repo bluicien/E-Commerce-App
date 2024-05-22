@@ -19,6 +19,8 @@ userRouter.post('/login',
 
 userRouter.post('/register', userDb.userExists, userDb.registerUser)
 
+userRouter.post('/changePassword', userDb.changePassword)
+
 userRouter.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);

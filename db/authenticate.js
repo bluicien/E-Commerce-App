@@ -16,11 +16,12 @@ const isAuthenticated = (req, res, next) => {
 const isAuthorized = (req, res, next) => {
     const requestedUserId = req.params.userId;
     const currentUserId = req.user.id;
-     if (requestedUserId === currentUserId) {
+    if (requestedUserId == currentUserId) {
         return next();
-     } else {
+    } else {
+        console.log(requestedUserId)
         res.status(403).json({msg: "You are not authorized to view this page."})
-     }
+    }
 }
 
 // Password hashing function

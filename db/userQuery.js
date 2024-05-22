@@ -75,11 +75,28 @@ const deleteUser = (req, res) => {
     });
 }
 
+const changePassword = async (req, res) => {
+    const { username, password } = req.body;
+    const hashedPassword = await auth.passwordHash(password, 10);
+    const text = 'UPDATE users\
+        SET password = $1\
+        WHERE username = $2';
+    
+    db.query(text, [hashedPassword, username], (error, results) => {
+        if (error) {
+            res.status(400).json({msg: "Bad Request"});
+        } else {
+            res.status(200).json({msg: "Password Changed!"})
+        }
+    })
+}
+
 module.exports = {
     userExists,
     userIdParam,
     registerUser,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    changePassword
 }
