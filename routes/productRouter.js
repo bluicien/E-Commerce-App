@@ -13,6 +13,9 @@ productRouter.param('productId', productDb.productIdParam)
 productRouter.get('/:productId', productDb.getProductById)
 productRouter.put('/:productId', auth.isAuthenticated, productDb.updateProduct)
 productRouter.delete('/:productId', auth.isAuthenticated, productDb.deleteProduct);
+
+// Adds the product with productId to cart, this is to simulate the "Buy" button on a shopping page.
+// It requires { quantity: Integer } to be posted in request body.
 productRouter.put('/:productId/addtocart', auth.isAuthenticated, productDb.addToCart);
 
 module.exports = productRouter;
