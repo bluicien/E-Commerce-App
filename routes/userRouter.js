@@ -35,23 +35,3 @@ userRouter.put('/:userId', auth.isAuthenticated, auth.isAuthorized, userDb.updat
 userRouter.delete('/:userId', auth.isAuthenticated, auth.isAuthorized, userDb.deleteUser);
 
 module.exports = userRouter;
-
-////ALTERNATIVE METHOD
-// const { username, password } = req.body;
-// db.query('SELECT id, username, password, role_id FROM users WHERE username = $1', [username], (error, results) => {
-//     const user = results.rows[0];
-//     if (!user) {
-//         res.status(404).json({msg: "User does not exist"});
-//     } else if (user.password != password) {
-//         res.status(400).json({msg: "Bad Credentials"});
-//     } else if (user.username == username && user.password == password) {
-//         req.session.authenticated = true;
-//         req.session.user = {
-//             userId: user.id,
-//             username,
-//             password
-//         }
-        
-//         res.status(200).json({msg: "Successfully logged in!"})
-//     }
-// })

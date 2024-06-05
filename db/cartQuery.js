@@ -36,16 +36,20 @@ const getCart = (req, res) => {
 }
 
 const checkoutCart = async (req, res) => {
+
+    // Create a temporary cart table to hold all product details in cart.
     const cartDetailsTempTable = '\
         CREATE TEMP TABLE cart_details (cart_id, product_id, quantity, price) AS\
         SELECT cp.cart_id, cp.product_id, cp.quantity, products.price\
         FROM cart_products as cp\
         JOIN products ON cp.product_id = products.id\
         WHERE cart_id = (SELECT id FROM cart WHERE user_id = $1)';
-        
+    
+    // Create a second temp table to hold blueprint of a new order with calculated total cost
     const newOrderTempTable = 'CREATE TEMP TABLE new_order (status, total, user_id) AS\
             SELECT \'Not paid\', SUM(cart_details.price), 1 FROM cart_details'
 
+    // Insert new order into orders table, with returning value of new ID, insert into the orders_products cross reference table
     const insertNewOrder = 'WITH new_id AS (\
         INSERT INTO orders (status, total, user_id)\
         SELECT status, total, user_id FROM new_order\
@@ -54,6 +58,8 @@ const checkoutCart = async (req, res) => {
         INSERT INTO orders_products (order_id, product_id, quantity)\
         SELECT new_id.id, cart_details.product_id, cart_details.quantity FROM new_id, cart_details';
     
+
+    // Start db client and perform transaction
     const client = await db.getClient();
     try {
         await client.query('BEGIN');
@@ -72,8 +78,6 @@ const checkoutCart = async (req, res) => {
     }
 
 }
-
-
 
 module.exports = {
     getCart,
