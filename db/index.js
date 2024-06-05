@@ -15,4 +15,8 @@ const query = (text, params, callback) => {
     return pool.query(text, params, callback);
 }
 
-module.exports.db = { query };
+const getClient = async () => {
+    return await pool.connect();
+}
+
+module.exports.db = { query, getClient };

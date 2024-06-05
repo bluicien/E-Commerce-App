@@ -35,32 +35,42 @@ const getCart = (req, res) => {
     })
 }
 
-const checkoutCart = (req, res) => {
-    const firstStatement = '\
+const checkoutCart = async (req, res) => {
+    const cartDetailsTempTable = '\
         CREATE TEMP TABLE cart_details (cart_id, product_id, quantity, price) AS\
         SELECT cp.cart_id, cp.product_id, cp.quantity, products.price\
         FROM cart_products as cp\
         JOIN products ON cp.product_id = products.id\
         WHERE cart_id = (SELECT id FROM cart WHERE user_id = $1)';
         
-    const secondStatement = 'CREATE TEMP TABLE new_order (status, total, user_id) AS\
+    const newOrderTempTable = 'CREATE TEMP TABLE new_order (status, total, user_id) AS\
             SELECT \'Not paid\', SUM(cart_details.price), 1 FROM cart_details'
 
-    const thirdStatement = 'SELECT * FROM cart_details';
+    const insertNewOrder = 'WITH new_id AS (\
+        INSERT INTO orders (status, total, user_id)\
+        SELECT status, total, user_id FROM new_order\
+        RETURNING id\
+        )\
+        INSERT INTO orders_products (order_id, product_id, quantity)\
+        SELECT new_id.id, cart_details.product_id, cart_details.quantity FROM new_id, cart_details';
+    
+    const client = await db.getClient();
+    try {
+        await client.query('BEGIN');
+        try {
+            await client.query(cartDetailsTempTable, [req.user.id]);
+            await client.query(newOrderTempTable);
+            await client.query(insertNewOrder);
+            client.query('COMMIT');
+        } catch (error) {
+            client.query('ROLLBACK');
+            res.status(500).json({error})
+        }
+    } finally {
+        client.release();
+        res.status(200).json({msg: "Your order has been placed"})
+    }
 
-    db.query(firstStatement, [req.user.id], (error, results) => {
-        if (error) {
-            res.status(400).json({msg: error});
-        } 
-        db.query(thirdStatement, [], (error, secondResults) => {
-            if (error) {
-                res.status(400).json({msg: error})
-            }
-            else {
-                res.status(200).json(secondResults)
-            }
-        })
-    })
 }
 
 
