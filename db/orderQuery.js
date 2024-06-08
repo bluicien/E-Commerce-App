@@ -29,7 +29,13 @@ const orderIdParam = async (req, res, next, id) => {
 
 const getOrdersById = async (req, res) => {
     try {
-        
+        const results = await db.query('SELECT id, status, total FROM orders WHERE id = $1', [req.orderId]);
+        console.log(results.rows)
+        if (results.rows.length > 0) {
+            res.status(200).json(results.rows[0])
+        } else {
+            res.status(404).json({msg: "Page not found"})
+        }
     } catch (error) {
         res.status(400).json({msg: "Bad Request"});
     }
@@ -37,5 +43,6 @@ const getOrdersById = async (req, res) => {
 
 module.exports = {
     getOrders,
-    orderIdParam
+    orderIdParam,
+    getOrdersById
 }
