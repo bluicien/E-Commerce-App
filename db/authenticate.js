@@ -44,26 +44,29 @@ const comparePasswords = async (password, hash) => {
     return false;
 }
 
-const findByUsername = (username, cb) => {
-    db.query('SELECT * FROM users WHERE username = $1', [username], (error, results) => {
-        if (error) {
-            res.status(400).json({msg: "Bad Request"})
-        }
+const findByUsername = async (username, cb) => {
+    try {
+        const results = await db.query('SELECT * FROM users WHERE username = $1', [username]);
         if (results.rows[0].username === username) {
             return cb(null, results.rows[0]);
         }
         return cb(null, null);
-    })
+    } catch (error) {
+        return cb(new Error('An unexpected error has occurred'))
+    }
 }
 
-const findById = (id, cb) => {
-    db.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+const findById = async (id, cb) => {
+    try {
+        const results = await db.query('SELECT * FROM users WHERE id = $1', [id])
         if (results.rows.length > 0) {
             return cb(null, results.rows[0])
         } else {
             return cb(new Error(`User with ${id} does not exist`))
         }
-    })
+    } catch (error) {
+        return cb(new Error('An unexpected error has occurred'))
+    }
 }
 
 

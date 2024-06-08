@@ -1,88 +1,103 @@
 const { db } = require('./index')
 
-const getProducts = (req, res) => {
+const getProducts = async (req, res) => {
+    let text; 
+    let parameters;
     if (req.query.name) {
-        var text = 'SELECT * FROM products WHERE LOWER(name) = $1';
-        var parameters = [req.query.name]
+        text = 'SELECT * FROM products WHERE LOWER(name) = $1';
+        parameters = [req.query.name]
     }
     else if (req.query.category) {
-        var text = 'SELECT products.*\
+        text = 'SELECT products.*\
             FROM categories\
             INNER JOIN products_categories\
                 ON products_categories.category_id = categories.id AND LOWER(categories.name) = $1\
             INNER JOIN products\
                 ON products.id = products_categories.product_id';
-        var parameters = [req.query.category]
+        parameters = [req.query.category]
     }
     else {
-        var text = 'SELECT * FROM products LIMIT 5'
+        text = 'SELECT * FROM products LIMIT 10'
     }
-    db.query(text, parameters, (error, result) => {
-        if (error) {
-            res.status(400).send(error);
+    
+    try {
+        const results = await db.query(text, parameters);
+        if (results.rows.length > 0) {
+            res.status(200).json(results.rows);
+        } else {
+            res.status(200).json({msg: "No products found."})
         }
-        res.status(200).json(result.rows);
-    });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred"});
+    }
 }
 
-const productIdParam = (req, res, next, id) => {
-    db.query('SELECT EXISTS (SELECT id FROM products WHERE id = $1)', [id], (error, results) => {
+const productIdParam = async (req, res, next, id) => {
+    try {
+        const results = await db.query('SELECT EXISTS (SELECT id FROM products WHERE id = $1)', [id]);
         if (results.rows[0].exists) {
-            req.productId = id
+            req.productId = id;
             next();
         }
         else {
-            res.status(404).send("Product not found")
+            res.status(404).json({msg: "Product not found"});
         }
-    })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred"});
+    }
 }
 
-const getProductById = (req, res) => {
-    db.query('SELECT * FROM products WHERE id = $1', [req.productId], (error, results) => {
-        if (error) {
-            res.status(400).send(error);
-        } else {
-            res.status(200).json(results.rows[0]);
-        }
-    });
+const getProductById = async (req, res) => {
+    try {
+        const results = await db.query('SELECT * FROM products WHERE id = $1', [req.productId]);
+        res.status(200).json(results.rows[0]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred"});
+    }
 }
 
-const postProduct = (req, res) => {
+const postProduct = async (req, res) => {
     const { name, description, brand_id, price } = req.body;
     const text = 'INSERT INTO products (name, description, brand_id, price) VALUES ($1, $2, $3, $4) RETURNING *';
     const parameters = [name, description, brand_id, price]
     
-    db.query(text, parameters, (error, results) => {
-        if (error) {
-            res.status(400).send(error);
-        }
-        res.status(200).send("Product was created");
-    })
+    try {
+        const results = await db.query(text, parameters);
+        res.status(200).json({msg: "Product was created", newProduct: results});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred. Failed to create product"}); 
+    }
 }
 
-const updateProduct = (req, res) => {
+const updateProduct = async (req, res) => {
     const { name, description, brand_id, price } = req.body;
     const text = 'UPDATE products SET name = $1, description = $2, brand_id = $3, price = $4 WHERE id = $5';
     const parameters = [name, description, brand_id, price, req.productId]
 
-    db.query(text, parameters, (error, results) => {
-        if (error) {
-            res.status(400).send(error)
-        }
-        res.status(400).send(results.rows[0])
-    })
+    try {
+        results = await db.query(text, parameters)
+        res.status(200).json({msg: "Product updated successfully."});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred. Failed to update."}); 
+    }
 }
 
-const deleteProduct = (req, res) => {
-    db.query('DELETE FROM products WHERE id = $1', [req.productId], (error, results) => {
-        if (error) {
-            res.status(400).send('Bad Request');
-        }
-        res.status(200).send("Product deleted successfully.");
-    });
+const deleteProduct = async (req, res) => {
+    try {
+        await db.query('DELETE FROM products WHERE id = $1', [req.productId])
+        res.status(200).send("Product deleted successfully.");    
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred. Failed to delete."}); 
+    }
 }
 
-const addToCart = (req, res) => {
+const addToCart = async (req, res) => {
     const text = 'WITH user_cart AS (\
         SELECT id FROM cart WHERE user_id = $1\
       )\
@@ -90,12 +105,13 @@ const addToCart = (req, res) => {
       SELECT id, $2, $3 FROM user_cart';
     const parameters = [req.user.id, req.productId, req.body.quantity]
 
-    db.query(text, parameters, (error, results) => {
-        if (error) {
-            res.status(400).json({msg: "Bad Request"});
-        }
+    try {
+        await db.query(text, parameters)
         res.redirect('/cart');
-    })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "An unexpected error has occurred. Failed to update."}); 
+    }
 }
 
 module.exports = {

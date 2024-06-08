@@ -10,9 +10,9 @@ const pool = new Pool({
     port: process.env.DB_PORT
 });
 
-const query = (text, params, callback) => {
+const query = (text, params) => {
     console.log('Querying database...');
-    return pool.query(text, params, callback);
+    return pool.query(text, params);
 }
 
 const getClient = async () => {

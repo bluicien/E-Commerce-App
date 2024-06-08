@@ -1,7 +1,7 @@
 // Import DB and Authentication functions
 const { db } = require('./index');
 
-const getCart = (req, res) => {
+const getCart = async (req, res) => {
     const text = 'SELECT c.id AS cart_id,\
     p.id AS product_id,\
         p.name, p.description,\
@@ -15,28 +15,25 @@ const getCart = (req, res) => {
     WHERE c.user_id = $1'
     
     const parameters = [req.user.id]
-
-    db.query(text, parameters, (error, results) => {
-        if (error) {
-            res.status(400).json({msg: "Bad request"});
-        } 
-        else if (results.rows.length > 0) {
+    try {
+        const results = await db.query(text, parameters);
+        if (results.rows.length > 0) {
             const cart = results.rows
             const prices = cart.map(item => parseInt(item.line_total.replace('$', '')));
             const cartTotal = "$" + prices.reduce((accumulator, item) => {
                 return accumulator + item;
-            }, 0);
-            
+            }, 0);        
             res.status(200).json({cart, cartTotal})
         } 
         else {
             res.status(200).json({msg: "Your cart is empty"});
         }
-    })
+    } catch (error) {
+        res.status(400).json({msg: "Bad request"});
+    }
 }
 
 const checkoutCart = async (req, res) => {
-
     // Create a temporary cart table to hold all product details in cart.
     const cartDetailsTempTable = '\
         CREATE TEMP TABLE cart_details (cart_id, product_id, quantity, price) AS\
@@ -57,7 +54,6 @@ const checkoutCart = async (req, res) => {
         )\
         INSERT INTO orders_products (order_id, product_id, quantity)\
         SELECT new_id.id, cart_details.product_id, cart_details.quantity FROM new_id, cart_details';
-    
 
     // Start db client and perform transaction
     const client = await db.getClient();
@@ -76,7 +72,6 @@ const checkoutCart = async (req, res) => {
         client.release();
         res.status(200).json({msg: "Your order has been placed"})
     }
-
 }
 
 module.exports = {
