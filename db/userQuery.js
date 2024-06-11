@@ -48,8 +48,12 @@ const userIdParam = async (req, res, next, id) => {
 
 const getUserById = async (req, res) => {
     try {
-        const results = await db.query('SELECT * FROM users WHERE id = $1', [req.userId]);
-        res.status(200).json(results.rows);
+        const results = await db.query('SELECT username, first_name, last_name, email, birth_date FROM users WHERE id = $1', [req.userId]);
+        if (results.rows.length > 0) {
+            res.status(200).json(results.rows[0]);
+        } else {
+            res.status(404).json({msg: "Page not found"});
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({msg: "An unexpected error occurred."}) 
@@ -57,9 +61,9 @@ const getUserById = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    const { password, first_name, last_name, email, birth_date } = req.body;
-    const text = 'UPDATE users SET password = $1, first_name = $2, last_name = $3, email = $4, birth_date = $5 WHERE id = $6';
-    const parameters = [password, first_name, last_name, email, birth_date, req.userId];
+    const { first_name, last_name, email, birth_date } = req.body;
+    const text = 'UPDATE users SET first_name = $1, last_name = $2, email = $3, birth_date = $4 WHERE id = $5';
+    const parameters = [first_name, last_name, email, birth_date, req.userId];
     
     try {
         await db.query(text, parameters)

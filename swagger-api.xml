@@ -1,0 +1,236 @@
+openapi: 3.0.1
+info:
+  title: E-Commerce App
+  version: 1.0.0
+  description: E-Commerce Website REST API
+paths:
+  /users/{id}:
+    summary: Get information of user matching id
+    description: Retrieve user information from database
+    get:
+      summary: Get the user data that matches id
+      description: Get user data from the users database that matches the id parameter
+      operationId: get_user
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              examples:
+                users:
+                  value:
+                    username: bDawg
+                    first_name: Brendon
+                    last_name: Luicien
+                    email: brendon@example.com
+                    birth_date: null
+        '404':
+          description: User not found
+          content:
+            application/json:
+              examples:
+                Page not found.:
+                  value: 404 Page not found
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+    put:
+      summary: Update user data
+      description: >-
+        Takes paramaters first_name, last_name, email, birth_date and updates
+        the user data in database
+      operationId: update_user
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update user object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update_User'
+      responses:
+        '303':
+          description: Redirect user to their user page
+          content:
+            application/json:
+              examples:
+                Redirect:
+                  value: Redirect to user page'
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+    delete:
+      summary: Delete user.
+      description: Deletes the user that matches id
+      operationId: delete_user
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted
+          content:
+            application/json:
+              examples:
+                No Content:
+                  value: User has been deleted successfully.
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+  /users/login:
+    summary: Verify username and password and login the user.
+    description: >-
+      Input a username and password and check with database records for match to
+      login the user.
+    get:
+      summary: Display login page
+      description: Displays the login page for input of username and password
+      operationId: login
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+    post:
+      summary: Login the user
+      description: >-
+        Checks username and password with users database table and logs user in
+        if there is a match
+      operationId: user_login
+      requestBody:
+        description: Login the user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login_User'
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+  /users/register:
+    summary: Create a new user
+    description: >-
+      Takes input of user information to insert into user database and create a
+      user.
+    post:
+      summary: Create a new user
+      description: >-
+        Request body should contain username, password, first_name, last_name
+        and email to post to database and create a user.
+      operationId: register_user
+      requestBody:
+        description: A new user object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - Users
+  /users/changePassword:
+    summary: Change the user's password.
+    description: >-
+      Check user's current password with database and then update database with
+      user's new password
+  /products:
+    summary: Display or create products
+    description: This path will display the first 10 products and create new products
+    get:
+      summary: Get all products
+      description: Get all the products
+      operationId: get_all_products
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - Products
+    post:
+      summary: Create product
+      description: Create a new product and add to products database
+      operationId: new_product
+      requestBody:
+        description: Create new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - Products
+        
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+      xml:
+        name: User
+    Update_User:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        birth_date:
+          type: string
+      xml:
+        name: Update_User
+    Login_User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      xml:
+        name: Login_User
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        brand_id:
+          type: string
+        price:
+          type: string
+      xml:
+        name: Product
