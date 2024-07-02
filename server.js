@@ -6,6 +6,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const apiRouter = require('./routes/index');
 
+//Import security measures
+const cors = require('cors');
+const helmet = require('helmet');
+
 //Import authentication functions
 const auth = require('./db/authenticate')
 
@@ -20,6 +24,9 @@ const store = new session.MemoryStore();
 //Initialize express
 const app = express();
 
+app.use(cors());
+app.use(helmet());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -31,7 +38,8 @@ app.use(
         secret: process.env.SESSION_SECRET,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24,
-            secure: false,
+            httpOnly: true,
+            secure: true,
             sameSite: "none"
         },
         resave: false,

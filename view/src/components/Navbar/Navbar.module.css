@@ -1,0 +1,83 @@
+.navBar {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 4rem; */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow: hidden;
+    background-color: rgb(120, 60, 200);
+}
+
+.navButtons {
+    float: right;
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+}
+
+.navLogo {
+    float: left;
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+}
+
+button.dropBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+
+.dropdown .dropBtn {
+    font-size: 1.2rem;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 1rem 1.2rem;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navBar a:hover, .dropdown:hover .dropBtn {
+    background-color: rgb(232, 214, 255);
+    color: black;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: rgb(232, 214, 255);
+    box-shadow: 0px 8px 16px 0px rgba(233, 176, 255, 0.637);
+    z-index: 1;
+}
+
+.dropdownContent a {
+    float: none;
+    color: black;
+    display: block;
+    text-align: left;
+    font-size: 1.2rem;
+    padding: 1rem;
+}
+
+.dropdownContent a:hover{
+    background-color: rgb(120, 60, 200);
+    color: white;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+}

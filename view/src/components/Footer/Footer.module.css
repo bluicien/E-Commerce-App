@@ -1,0 +1,15 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    position: relative;
+    bottom: 0;
+    height: 3rem;
+    width: 100%;
+    background-color:rgba(120, 60, 200, 0.5);
+}
+
+.footer p {
+    margin-left: 2rem;
+}

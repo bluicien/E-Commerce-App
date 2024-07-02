@@ -16,14 +16,30 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  background: url("../../public/mystic.jpg") no-repeat fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+}
+
+#bgLayer {
+  background: rgba(0, 1, 59, 0.836) repeat-y;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 @layer utilities {
