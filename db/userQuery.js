@@ -32,6 +32,7 @@ const registerUser = async (req, res) => {
 }
 
 const userIdParam = async (req, res, next, id) => {
+    console.log(id)
     try {
         const results = await db.query('SELECT EXISTS (SELECT id FROM users WHERE id = $1)', [id])
         if (results.rows[0].exists) {

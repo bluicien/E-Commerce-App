@@ -47,7 +47,7 @@ const comparePasswords = async (password, hash) => {
 const findByUsername = async (username, cb) => {
     try {
         const results = await db.query('SELECT * FROM users WHERE username = $1', [username]);
-        if (results.rows[0].username === username) {
+        if (results.rows.length > 0 && results.rows[0].username === username) {
             return cb(null, results.rows[0]);
         }
         return cb(null, null);

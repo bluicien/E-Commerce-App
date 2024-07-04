@@ -1,7 +1,7 @@
 import styles from './page.module.css';
-const BASE_URL = "http://localhost:3000"
-import Image from 'next/image'
-import Link from 'next/link'
+const BASE_URL = "http://localhost:3000";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function ProductsPage() {
     const response = await fetch(`${BASE_URL}/products`)
@@ -27,7 +27,7 @@ export default async function ProductsPage() {
                             <p>Price: {product.price}</p>
                             <p>Description: {product.description || "N/A"}</p>
                         </div>
-                        <button className={styles.cartBtn}>ADD TO CART</button>
+                        <Link href={"/cart"} className={styles.cartBtn}><button>ADD TO CART</button></Link>
                     </li>
                 ))}
             </ul>

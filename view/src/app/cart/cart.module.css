@@ -1,0 +1,14 @@
+.cartPage {
+    width: 50%;
+    height: 100%;
+    min-height: 100vh;
+    overflow-y: hidden;
+    background-color: rgba(240, 248, 255, 0.4);
+    margin: auto;
+    padding: 2rem;
+}
+
+.pageHeader {
+    font-size: 5rem;
+    font-weight: 700;
+}

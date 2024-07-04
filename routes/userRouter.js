@@ -13,7 +13,8 @@ userRouter.get('/login', (req, res) => {
 userRouter.post('/login', 
     passport.authenticate("local", { failureRedirect: "/users/login"}),
     (req, res) => {
-        res.status(200).send({msg: "Successfully logged in!"})
+        const { user : { username } } = req;
+        res.status(200).json({msg: "Successfully logged in!", authenticated: true, username})
     }
 )
 
