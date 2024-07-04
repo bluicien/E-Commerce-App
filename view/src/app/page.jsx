@@ -1,9 +1,10 @@
 import Image from "next/image";
+import styles from "./home.module.css"
 
 export default function Home() {
   return (
-    <main>
-      <h1>WELCOME TO MY E-COMMERCE APP!</h1>
+    <main className={styles.mainPage}>
+      <h1 className={styles.homeHeader}>WELCOME TO MY E-COMMERCE APP!</h1>
     </main>
   )
 }

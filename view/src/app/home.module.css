@@ -1,0 +1,11 @@
+.homeHeader {
+    font-size: 100px;
+    position: relative;
+    top: 40vh;
+    color: turquoise;
+}
+
+.mainPage {
+    min-height: 100vh;
+    text-align: center;
+}

@@ -1,8 +1,14 @@
 'use client'
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import styles from './page.module.css';
 import { useState } from 'react';
+import { authenticateUser } from '@/app/lib/features/authenticate/authenticateSlice';
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
     const [login, setLogin] = useState({
         username: "",
         password: ""
@@ -26,14 +32,15 @@ export default function Login() {
                     "Content-Type": "application/json",
                 }
             });
-            const result = response.json();
-
-            if (result.authenticated && login.username === result.username) {
-                
+            const auth = await response.json();
+            console.log(auth)
+            if (auth.authenticated && login.username === auth.username) {
+                dispatch(authenticateUser());
+                router.replace("/");
             }
             
         } catch (error) {
-            console.log("Internal Server Error");
+            console.log(error);
         }
         
     }
@@ -42,7 +49,7 @@ export default function Login() {
         <section className={styles.loginBox}>  
             <h3 className={styles.loginHeader}>LOGIN</h3>
             <form className={styles.loginForm} action={handlePost}>
-                <label>Username: </label>
+                <label htmlFor="username">Username: </label>
                 <input 
                     type="text" 
                     id="username" 
@@ -50,7 +57,7 @@ export default function Login() {
                     onChange={handleKeystroke} 
                     value={login.username} 
                     required />
-                <label>Password: </label>
+                <label htmlFor="password">Password: </label>
                 <input 
                     type="password" 
                     id="password" 
