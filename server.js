@@ -4,6 +4,7 @@ require('dotenv').config();
 //Import express, parser and routes
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/index');
 
 //Import security measures
@@ -24,31 +25,30 @@ const store = new session.MemoryStore();
 //Initialize express
 const app = express();
 
-
+const corsOptions = {
+    origin: "http://localhost:3001",
+    credentials: true
+};
+app.use(cors(corsOptions));
 
 //Setup session cookies
 app.use(
     session({
-        secret: process.env.SESSION_SECRET,
+        secret: 'crazy cat',
+        saveUninitialized: false,
+        resave: false,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24,
             sameSite: 'lax',
             secure: false,
             httpOnly: true
         },
-        resave: false,
-        saveUninitialized: false,
         store,
     })
 );
 
-const corsOptions = {
-    origin: "http://localhost:3001",
-    credentials: true
-  };
-app.use(cors(corsOptions));
-app.use(helmet());
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -59,18 +59,26 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    console.log("Serializing: " + user.id)
+    process.nextTick(function() {
+        return done(null, user.id);
+    });
 });
 
+
 passport.deserializeUser((id, done) => {
-    auth.findById(id, (err, user) => {
-        if (err) return done(err);
-        done(null, user);
+    console.log("Deserializing ID: " + id)
+    process.nextTick(function () {
+        auth.findById(id, (err, user) => {
+            if (err) return done(err);
+            return done(null, user);
+        });
     });
 });
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
+        console.log("Finding user...")
         auth.findByUsername(username, async (err, user) => {
             // If error.
 

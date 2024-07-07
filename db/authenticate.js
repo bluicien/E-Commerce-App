@@ -3,27 +3,30 @@ const bcrypt = require('bcrypt');
 
 // Authenticate user
 const isAuthenticated = (req, res, next) => {
+    console.log("Authenticating...")
     if (req.isAuthenticated()) {
         return next();
     } else {
-        res.redirect('/users/login')
+        res.status(401).json({msg: "Unauthorized to view!"})
     }
 }
 
 // Authenticate and Authorize user
 const isAuthorized = (req, res, next) => {
+    console.log("Checking user authorization...")
     const requestedUserId = req.params.userId;
     const currentUserId = req.user.id;
     if (requestedUserId == currentUserId) {
         return next();
     } else {
         console.log(requestedUserId)
-        res.status(403).json({msg: "You are not authorized to view this page."})
+        return res.status(403).json({msg: "You are not authorized to view this page."})
     }
 }
 
 // Password hashing function
 const passwordHash = async (password, saltRounds) => {
+    console.log("Hashing password...")
     try {
         const salt = await bcrypt.genSalt(saltRounds);
         return await bcrypt.hash(password, salt);
@@ -35,6 +38,7 @@ const passwordHash = async (password, saltRounds) => {
 
 // Compare hash password in database with entered password
 const comparePasswords = async (password, hash) => {
+    console.log("Checking password...")
     try {
         const matchFound = await bcrypt.compare(password, hash);
         return matchFound;
@@ -45,6 +49,7 @@ const comparePasswords = async (password, hash) => {
 }
 
 const findByUsername = async (username, cb) => {
+    console.log("Finding user...")
     try {
         const results = await db.query('SELECT * FROM users WHERE username = $1', [username]);
         if (results.rows.length > 0 && results.rows[0].username === username) {
@@ -57,6 +62,7 @@ const findByUsername = async (username, cb) => {
 }
 
 const findById = async (id, cb) => {
+    console.log("Finding user by id...")
     try {
         const results = await db.query('SELECT * FROM users WHERE id = $1', [id])
         if (results.rows.length > 0) {

@@ -22,33 +22,36 @@ export default function Login() {
         }))
     }
 
-    const handlePost = async () => {
+    const handleLogin = async (event) => {
+        event.preventDefault();
         try {
             const response = await fetch("http://localhost:3000/users/login", {
                 method: "POST",
                 credentials: 'include',
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(login),
-                headers: {
-                    "Content-Type": "application/json",
-                }
             });
+            console.log(response)
             const auth = await response.json();
             console.log(auth)
-            if (auth.authenticated && login.username === auth.username) {
+            if (response.ok && login.username === auth.username) {
                 dispatch(authenticateUser());
+                setLogin({username: "", password: ""})
                 router.replace("/");
+            }
+            else {
+                throw new Error("ERROR: Invalid username or password");
             }
             
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
-        
     }
 
     return (
         <section className={styles.loginBox}>  
             <h3 className={styles.loginHeader}>LOGIN</h3>
-            <form className={styles.loginForm} action={handlePost}>
+            <form className={styles.loginForm} onSubmit={handleLogin}>
                 <label htmlFor="username">Username: </label>
                 <input 
                     type="text" 

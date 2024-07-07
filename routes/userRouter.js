@@ -10,11 +10,15 @@ userRouter.get('/login', (req, res) => {
     res.json({msg: "Login page here"})
 })
 
-userRouter.post('/login', 
-    passport.authenticate("local", { failureRedirect: "/users/login"}),
+userRouter.post('/login',
+    passport.authenticate("local", {
+        failureRedirect: "/users/login"
+    }),
     (req, res) => {
         const { user : { username } } = req;
-        res.status(200).json({msg: "Successfully logged in!", authenticated: true, username})
+        console.log(username + "Successfully logged in ")
+        res.status(200).json({username: username})
+        return;
     }
 )
 
@@ -26,7 +30,7 @@ userRouter.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);
     });
-    res.redirect('./login');
+    res.redirect('users/login');
 })
 
 userRouter.param('userId', userDb.userIdParam)

@@ -14,9 +14,9 @@ export default function Navbar() {
             <div className={styles.dropdown}>
                 <button className={styles.dropBtn} >Menu&nbsp;<IoIosArrowDropdownCircle /></button>
                 <div className={styles.dropdownContent}>
+                    <Link href="/products" >Products</Link>
                     <Link href="/" >Orders</Link>
                     <Link href="/" >Categories</Link>
-                    <Link href="/" >To be implemented</Link>
                 </div>
             </div>
             {!isAuthenticated && <Link href="/users/signup" className={styles.navButtons}>Sign-Up</Link>}

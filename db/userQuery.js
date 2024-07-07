@@ -17,11 +17,10 @@ const userExists = async (req, res, next) => {
 };
 
 const registerUser = async (req, res) => {
-    const { username, password, first_name, last_name, email } = req.body;
+    const { username, password, firstName, lastName, email } = req.body;
     const hashedPassword = await auth.passwordHash(password, 10)
-    const values = [username, hashedPassword, first_name, last_name, email];
+    const values = [username, hashedPassword, firstName, lastName, email];
     const text = "INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5) RETURNING *";
-
     try {
         const results = await db.query(text, values);
         res.status(201).json(results.rows[0]);    

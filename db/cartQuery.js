@@ -2,6 +2,7 @@
 const { db } = require('./index');
 
 const getCart = async (req, res) => {
+    console.log("Getting cart")
     const text = 'SELECT \
         c.id AS cart_id,\
         p.id AS product_id,\

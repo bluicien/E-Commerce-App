@@ -1,6 +1,7 @@
 const { db } = require('./index')
 
 const getProducts = async (req, res) => {
+    console.log("GETTING PRODUCTS")
     let text; 
     let parameters;
     if (req.query.name) {
