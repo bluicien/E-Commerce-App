@@ -4,10 +4,10 @@ import styles from './cart.module.css';
 import Cart from '@/components/Cart/Cart';
 
 
+const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
 export default function CartPage() {
     
-    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
     const { data, error, isLoading } = useSWR("http://localhost:3000/cart", fetcher);
 
     return (

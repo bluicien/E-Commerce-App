@@ -1,12 +1,33 @@
 'use client'
+import useSWR from "swr";
 import Link from "next/link"
 import styles from './Navbar.module.css'
 import { IoIosArrowDropdownCircle } from "react-icons/io";
-import { useAppSelector } from "@/app/lib/hooks";
+import { useAppSelector, useAppDispatch } from "@/app/lib/hooks";
+import { authenticateUser, unAuthenticateUser } from "@/app/lib/features/authenticate/authenticateSlice";
+import { useEffect } from "react";
 
 
 export default function Navbar() {
-    const isAuthenticated = useAppSelector(state => state.authenticate.isAuthenticated);
+    
+    // Declare dispatch hook
+    const dispatch = useAppDispatch();
+    
+    // On page refresh, send session cookie from browser to backend to check if user is still authenticated. 
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res);
+    const { data, error, isLoading } = useSWR("http://localhost:3000/isAuth", fetcher);
+
+    if (error) console.log(error);
+
+    // Based on response from backend, set browser state to authenticated or un-authenticate user.
+    let isAuthenticated;
+    if (data && data.statusText === "OK") {
+        dispatch(authenticateUser());
+        isAuthenticated = useAppSelector(state => state.authenticate.isAuthenticated);
+    } else {
+        dispatch(unAuthenticateUser());
+        isAuthenticated = useAppSelector(state => state.authenticate.isAuthenticated);
+    }
 
     return (
         <nav className={styles.navBar} >

@@ -9,6 +9,8 @@ const cartRouter = require('./cartRouter');
 const orderRouter = require('./orderRouter');
 
 // Use routes
+apiRouter.get('/isAuth', auth.isAuthenticated, (req, res) => res.status(200).json({msg: "Authenticated"}));
+
 apiRouter.use('/users', userRouter);
 apiRouter.use('/products', productRouter);
 apiRouter.use('/cart', auth.isAuthenticated, cartRouter);
