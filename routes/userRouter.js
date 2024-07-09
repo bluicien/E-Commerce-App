@@ -30,7 +30,7 @@ userRouter.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);
     });
-    res.redirect('users/login');
+    res.status(200).json({ msg: "User logged out" });
 })
 
 userRouter.param('userId', userDb.userIdParam)
