@@ -1,36 +1,36 @@
-'use client'
+// 'use client'
 import AddToCartButton from '@/components/AddToCartButton/AddToCartButton';
 import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
 
     console.log("Rendering Server Component ProductsPage...")
 
-    const [ products, setProducts ] = useState([]);
-
-    const getProducts = async () => {
-        const response = await fetch('api/products');
-        const result = await response.json();
-        setProducts(result);
-        return;
-    }
+    // const [ products, setProducts ] = useState([]);
 
     // const getProducts = async () => {
-    //     console.log("GET products...")
-    //     const response = await fetch("http://localhost:3000/products", { cache: 'no-store'} )
-    //     const products = await response.json();
-    //     return products;
+    //     const response = await fetch('api/products');
+    //     const result = await response.json();
+    //     setProducts(result);
+    //     return;
     // }
 
-    // const products = await getProducts();
+    const getProducts = async () => {
+        console.log("GET products...")
+        const response = await fetch("http://localhost:3000/products", { cache: 'no-store'} )
+        const products = await response.json();
+        return products;
+    }
 
-    useEffect(() => {
-        getProducts();
-    }, [])
+    const products = await getProducts();
+
+    // useEffect(() => {
+    //     getProducts();
+    // }, [])
     
     return (
         <div>

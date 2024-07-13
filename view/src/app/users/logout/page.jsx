@@ -18,11 +18,8 @@ export default function LogoutPage() {
     useEffect(() => {
         deleteCookie();
         dispatch(unAuthenticateUser());
+        router.push("/users/login");
     }, [])
-    
-    if (!isLoading) return <></>;
-    else {
-        router.replace("/users/login");
 
-    }
+    if (!isLoading) return <></>;
 }

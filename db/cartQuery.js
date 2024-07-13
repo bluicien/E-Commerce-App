@@ -102,7 +102,8 @@ const checkoutCart = async (req, res) => {
             // Return failed message if payment funds is insufficient.
             if (orderSum != req.body.paymentSum) {
                 res.status(400).json({msg: "Payment failed due to insufficient funds."})
-            } else {
+            }
+            else {
                 // Insert new order into database.
                 await client.query(insertNewOrder);
                 
@@ -112,19 +113,21 @@ const checkoutCart = async (req, res) => {
                 // Delete cart. Archiving is handled automatically by database.
                 await client.query(deleteCart, [cartId]);
                 // Commit transaction
-                client.query('COMMIT');
+                await client.query('COMMIT');
 
                 // If no error. Return success code with message that order has been placed.
                 res.status(200).json({msg: "Your order has been placed"})
             }
-        } catch (error) {
+        } 
+        catch (error) {
 
             // If error, rollback transaction
             client.query('ROLLBACK');
             // Return server error code with error object.
             res.status(500).json({error})
         }
-    } finally {
+    } 
+    finally {
         // Release database connection regardless of success or failure.
         client.release();
     }
