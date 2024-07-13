@@ -1,6 +1,8 @@
+// Import DB and Auth functions
 const { db } = require('./index');
 const auth = require('./authenticate')
 
+// Middleware to check if a user with same username or email exists.
 const userExists = async (req, res, next) => {
     const {username, email } = req.body;
     try {
@@ -16,6 +18,9 @@ const userExists = async (req, res, next) => {
     }
 };
 
+// POST request. User registration. Takes parameters, username, password, firstname, lastname and email.
+// It hashes the password with the password hash function imported from auth with specified salt rounds
+// Then makes a database query to insert into users database.
 const registerUser = async (req, res) => {
     const { username, password, firstName, lastName, email } = req.body;
     const hashedPassword = await auth.passwordHash(password, 10)
@@ -30,6 +35,8 @@ const registerUser = async (req, res) => {
     }
 }
 
+// User id parameter middleware. Takes the id parameter from request and checks if a user exists.
+// If user exists, assigns the id to req.userId and continues.
 const userIdParam = async (req, res, next, id) => {
     console.log(id)
     try {
@@ -46,6 +53,7 @@ const userIdParam = async (req, res, next, id) => {
     }
 }
 
+// GET request. Gets user information for user with id matching req.userId
 const getUserById = async (req, res) => {
     try {
         const results = await db.query('SELECT username, first_name, last_name, email, birth_date FROM users WHERE id = $1', [req.userId]);
@@ -60,6 +68,7 @@ const getUserById = async (req, res) => {
     }
 }
 
+// PUT request. Updates personal information for a user matching the req.userId
 const updateUser = async (req, res) => {
     const { first_name, last_name, email, birth_date } = req.body;
     const text = 'UPDATE users SET first_name = $1, last_name = $2, email = $3, birth_date = $4 WHERE id = $5';
@@ -74,6 +83,7 @@ const updateUser = async (req, res) => {
     }
 }
 
+// DELETE request. Deletes user with id matching req.userId
 const deleteUser = async (req, res) => {
     try {
         await db.query('DELETE FROM users WHERE id = $1', [req.userId]);
@@ -84,6 +94,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// PUT request. Updates a user's password, hashes the new passwords and updates database.
 const changePassword = async (req, res) => {
     const { username, password } = req.body;
     const hashedPassword = await auth.passwordHash(password, 10);
@@ -100,6 +111,7 @@ const changePassword = async (req, res) => {
     }
 }
 
+// Export middleware functions.
 module.exports = {
     userExists,
     userIdParam,

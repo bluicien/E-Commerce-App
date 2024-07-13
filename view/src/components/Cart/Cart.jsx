@@ -5,7 +5,6 @@ import styles from "./Cart.module.css"
 
 export default function Cart({cartData}) {
     const { cart, cartTotal } = cartData;
-    console.log(cart);
     let cartItems;
     if (cart && cart.length > 0) {
         cartItems = cart.map(product => 
