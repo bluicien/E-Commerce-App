@@ -1,0 +1,42 @@
+.productPage {
+    display: flex;
+    flex-direction: column;
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    background-color: rgba(75, 75, 75, 0.5);
+    padding: 1rem;
+}
+
+.thumbnail {
+    border: 5px solid black;
+}
+
+.infoSection {
+    margin: 0px 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: rgba(0, 0, 128, 0.5);
+}
+
+.productTitle, .price, .description {
+    background: linear-gradient(to right, #46464650 50%, #ffffff5e 75%);
+    padding: 0.3rem 1rem;
+    margin: 0.3rem 1rem;
+}
+
+.productTitle {
+    font: 900 xx-large bolder;
+    font-size: 3rem;
+}
+
+.buttonsDivider {
+    margin: 1rem;
+}
+

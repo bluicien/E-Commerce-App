@@ -1,4 +1,4 @@
-.productsPage {
+.ordersPage {
     width: 50%;
     height: 100%;
     min-height: 100vh;
@@ -13,12 +13,12 @@
     font-weight: 700;
 }
 
-.products {
+.orders {
     display: flex;
     flex-direction: column;
 }
 
-.products li {
+.orders li {
     display: flex;
     flex-direction: row;
     margin: 10px;
@@ -30,7 +30,7 @@
     border: 5px solid black;
 }
 
-.productInfo {
+.orderInfo {
     background-color: rgba(0, 0, 128, 0.5);
     width: 80%;
     margin-left: 2rem;
@@ -40,7 +40,7 @@
 
 }
 
-.productInfo * {
+.orderInfo * {
     background: linear-gradient(to right, #46464650 50%, #ffffff5e 75%);
     padding: 0.3rem 1rem;
     margin: 0 1rem;

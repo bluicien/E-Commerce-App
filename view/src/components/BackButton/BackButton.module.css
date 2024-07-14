@@ -1,0 +1,17 @@
+.backBtn {
+    align-self: flex-start;
+    background-color: red;
+    border: 1px outset #000000;
+    border-radius: 5px;
+    margin: 1rem 1rem 1rem 0;
+    padding: 0.5rem 1rem;
+}
+
+.backBtn:hover {
+    background-color: #860000;
+}
+
+.backBtn:active {
+    background-color: #ffffff5e;
+    border-color: #860000;
+}
