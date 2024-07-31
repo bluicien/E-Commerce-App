@@ -1,9 +1,9 @@
-'use client'
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Cart.module.css"
 
 export default function Cart({cartData}) {
+
     const { cart, cartTotal } = cartData;
     let cartItems;
     if (cart && cart.length > 0) {
