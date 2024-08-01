@@ -26,7 +26,7 @@ const store = new session.MemoryStore();
 const app = express();
 
 const corsOptions = {
-    origin: "http://localhost:3001",
+    origin: process.env.FRONTEND_URL,
     credentials: true
 };
 app.use(cors(corsOptions));

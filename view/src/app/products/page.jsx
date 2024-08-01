@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 // import { useEffect, useState } from 'react';
+const BACKEND_URL = process.env.BACKEND_URL;
 
 export default async function ProductsPage() {
 
@@ -21,7 +22,7 @@ export default async function ProductsPage() {
 
     const getProducts = async () => {
         console.log("GET products...")
-        const response = await fetch("http://localhost:3000/products", { cache: 'no-store'} )
+        const response = await fetch(`${BACKEND_URL}/products`, { cache: 'no-store'} )
         const products = await response.json();
         return products;
     }

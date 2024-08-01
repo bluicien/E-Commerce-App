@@ -2,7 +2,8 @@
 import { useState } from "react";
 import styles from "./AddToCartButton.module.css"
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 // Art Add to Cart button, handles functionality of sending PUT request to update cart
 export default function AddToCartButton({productId}) {
@@ -15,7 +16,7 @@ export default function AddToCartButton({productId}) {
     const handleAddToCart = async (event) => {
         event.preventDefault();
 
-        const response = await fetch(`http://localhost:3000/products/${productId}/addtocart`, {
+        const response = await fetch(`${BACKEND_URL}/products/${productId}/addtocart`, {
             method: "PUT",
             credentials: "include",
             headers: { "Content-Type": "application/json" },

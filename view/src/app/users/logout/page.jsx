@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useSWR from "swr";
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
 export default function LogoutPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res);
-    const { data, error, isLoading } = useSWR("http://localhost:3000/users/logout", fetcher);
+    const { data, error, isLoading } = useSWR(`${BACKEND_URL}/users/logout`, fetcher);
     if (error) console.log(error);
     
     useEffect(() => {

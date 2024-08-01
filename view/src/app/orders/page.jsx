@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 import OrdersTable from "@/components/OrdersTable/OrdersTable";
 
 // Backend base URL
-const BASE_URL = "http://localhost:3000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 // Fetcher function to send credentials
 const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
@@ -14,7 +14,7 @@ const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => re
 // Renders Orders Page
 export default function OrdersPage() {
 
-    const { data, error, isLoading } = useSWR(`${BASE_URL}/orders`, fetcher);
+    const { data, error, isLoading } = useSWR(`${BACKEND_URL}/orders`, fetcher);
 
     if (error) console.log(error);
 

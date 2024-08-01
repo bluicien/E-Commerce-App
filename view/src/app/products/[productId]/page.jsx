@@ -4,9 +4,8 @@ import styles from "./page.module.css";
 import Image from 'next/image'
 import BackButton from "@/components/BackButton/BackButton";
 
-
 // Backend base url
-const BASE_URL = "http://localhost:3000";
+const BACKEND_URL = process.env.BACKEND_URL;
 
 // A single product's page
 export default async function ProductPage({params}) {
@@ -15,7 +14,7 @@ export default async function ProductPage({params}) {
     const productId = params.productId;
     
     // Fetch product details from backend with params productId
-    const response = await fetch(`${BASE_URL}/products/${productId}`)
+    const response = await fetch(`${BACKEND_URL}/products/${productId}`)
     const product = await response.json();
 
     return (

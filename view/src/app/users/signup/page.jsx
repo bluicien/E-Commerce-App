@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/app/lib/hooks';
 import { authenticateUser } from '@/app/lib/features/authenticate/authenticateSlice';
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
 export default function Signup() {
 
     const router = useRouter();
@@ -33,7 +35,7 @@ export default function Signup() {
             return;
         }
         try {
-            const response = await fetch("http://localhost:3000/users/register", {
+            const response = await fetch(`${BACKEND_URL}/users/register`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { "Content-Type": "application/json" },

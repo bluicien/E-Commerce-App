@@ -4,8 +4,10 @@ import styles from './page.module.css';
 import { useState } from 'react';
 import { authenticateUser } from '@/app/lib/features/authenticate/authenticateSlice';
 import { useRouter } from "next/navigation";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export default function Login() {
+
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -24,8 +26,9 @@ export default function Login() {
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        console.log(BACKEND_URL)
         try {
-            const response = await fetch("http://localhost:3000/users/login", {
+            const response = await fetch(`${BACKEND_URL}/users/login`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { "Content-Type": "application/json" },
