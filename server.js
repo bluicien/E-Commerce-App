@@ -30,6 +30,8 @@ const auth = require('./db/authenticate')
 //Initialize express
 const app = express();
 
+app.set('trust proxy', 1)
+
 // Redis client
 const redisClient = createClient({
     url: process.env.REDIS_URL
@@ -56,12 +58,13 @@ let redisStore = new RedisStore({
     prefix: "myapp:",
   })
 
+// Setup CORs
+
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
     credentials: true
 };
 
-// Setup CORs
 app.use(cors(corsOptions));
 
 //Setup session cookies
