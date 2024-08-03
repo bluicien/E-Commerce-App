@@ -98,7 +98,6 @@ passport.serializeUser((user, done) => {
     });
 });
 
-
 passport.deserializeUser((id, done) => {
     console.log("Deserializing ID: " + id)
     process.nextTick(function () {
