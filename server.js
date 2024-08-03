@@ -32,31 +32,33 @@ const app = express();
 
 app.set('trust proxy', 1)
 
-// Redis client
-const redisClient = createClient({
-    url: process.env.REDIS_URL
-});
-redisClient.connect().catch(console.error);
 
 // Redis store
 // const RedisStore = connectRedis(session);
 
 // Configure Redis
 // const redisClient = redis.createClient({
-//     port: process.env.REDIS_PORT,
-//     host: process.env.REDIS_HOST,
-// });
+    //     port: process.env.REDIS_PORT,
+    //     host: process.env.REDIS_HOST,
+    // });
+    
+    // ===== DEVELOPMENT STORE =====
+    // const store = new session.MemoryStore(); 
+    
+    // ===== PRODUCTION STORE =====
+    // const store = new RedisStore({client: redisClient});
+    
+    
+// Redis client
+const redisClient = createClient({
+    url: process.env.REDIS_URL
+});
+redisClient.connect().catch(console.error);
 
-// ===== DEVELOPMENT STORE =====
-// const store = new session.MemoryStore(); 
-
-// ===== PRODUCTION STORE =====
-// const store = new RedisStore({client: redisClient});
-
-let redisStore = new RedisStore({
+const redisStore = new RedisStore({
     client: redisClient,
     prefix: "myapp:",
-  })
+})
 
 // Setup CORs
 
