@@ -78,7 +78,7 @@ app.use(
         cookie: {
             maxAge: 1000 * 60 * 60,
             sameSite: 'lax',
-            secure: true, // True for production
+            secure: false, // True for production
             httpOnly: true
         },
         store: redisStore,
