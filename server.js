@@ -1,3 +1,4 @@
+/* ========== IMPORTS ========== */
 // Import environment variable
 require('dotenv').config();
 
@@ -7,43 +8,75 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/index');
 
-//Import security measures
+// Redis imports
+const RedisStore = require("connect-redis").default;
+const { createClient } = require("redis");
+
+//Import security packages
 const cors = require('cors');
 const helmet = require('helmet');
 
-//Import authentication functions
-const auth = require('./db/authenticate')
-
-//Import express-session
+//Import auth packages
 const session = require('express-session')
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+//Import authentication functions
+const auth = require('./db/authenticate')
 
-const store = new session.MemoryStore();
+
+/* ========== APPLICATION ========== */
 
 //Initialize express
 const app = express();
+
+// Redis client
+const redisClient = createClient({
+    url: process.env.REDIS_URL
+});
+redisClient.connect().catch(console.error);
+
+// Redis store
+// const RedisStore = connectRedis(session);
+
+// Configure Redis
+// const redisClient = redis.createClient({
+//     port: process.env.REDIS_PORT,
+//     host: process.env.REDIS_HOST,
+// });
+
+// ===== DEVELOPMENT STORE =====
+// const store = new session.MemoryStore(); 
+
+// ===== PRODUCTION STORE =====
+// const store = new RedisStore({client: redisClient});
+
+let redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "myapp:",
+  })
 
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
     credentials: true
 };
+
+// Setup CORs
 app.use(cors(corsOptions));
 
 //Setup session cookies
 app.use(
     session({
-        secret: 'crazy cat',
+        secret: process.env.SESSION_SECRET,
         saveUninitialized: false,
         resave: false,
         cookie: {
-            maxAge: 1000 * 60 * 60 * 24,
+            maxAge: 1000 * 60 * 60,
             sameSite: 'lax',
-            secure: false,
+            secure: false, // True for production
             httpOnly: true
         },
-        store,
+        store: redisStore,
     })
 );
 
