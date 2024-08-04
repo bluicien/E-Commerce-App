@@ -23,6 +23,7 @@
 
 body {
   margin: 0px;
+  height: 100vh;
   color: rgb(var(--foreground-rgb));
   background: url("../../public/mystic.jpg") no-repeat fixed;
   -webkit-background-size: cover;
@@ -41,7 +42,11 @@ body {
 #bgLayer {
   background: rgba(0, 1, 59, 0.322) repeat-y;
   background-size: cover;
-  min-height: 100vh;
+  min-height: 100%;
+}
+
+#bgLayer > div {
+  height: 100vh;
 }
 
 @layer utilities {

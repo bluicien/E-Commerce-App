@@ -1,6 +1,6 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import styles from './page.module.css';
+import styles from './login.module.css';
 import { useState } from 'react';
 import { authenticateUser } from '@/app/lib/features/authenticate/authenticateSlice';
 import { useRouter } from "next/navigation";
