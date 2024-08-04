@@ -20,7 +20,6 @@
   box-sizing: border-box;
 }
 
-
 body {
   margin: 0px;
   height: 100vh;
@@ -31,6 +30,7 @@ body {
   -ms-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  overflow-y: hidden;
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -43,11 +43,22 @@ body {
   background: rgba(0, 1, 59, 0.322) repeat-y;
   background-size: cover;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-#bgLayer > div {
-  height: 100vh;
+
+/* body::-webkit-scrollbar-track {
+  background-color: blueviolet;
 }
+
+body::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} */
 
 @layer utilities {
   .text-balance {

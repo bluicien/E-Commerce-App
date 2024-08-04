@@ -62,7 +62,8 @@ export default function Login() {
                     name="username" 
                     onChange={handleKeystroke} 
                     value={login.username} 
-                    required />
+                    required 
+                />
                 <label htmlFor="password">Password: </label>
                 <input 
                     type="password" 
@@ -70,7 +71,8 @@ export default function Login() {
                     name="password" 
                     onChange={handleKeystroke} 
                     value={login.password} 
-                    required />
+                    required   
+                />
                 <button type='submit'>Login</button>
             </form>
         </section>

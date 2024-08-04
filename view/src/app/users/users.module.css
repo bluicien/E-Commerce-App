@@ -1,9 +1,14 @@
 .userPage {
     width: 80%;
-    height: 100%;
-    margin: 0 auto;
-    padding-top: 4rem;
+    height: 84vh;
+    margin: auto;
+    padding: 4rem 0;
     background: rgba(255, 255, 255, 0.3);
+    overflow-y: scroll;
+}
+
+.userPage::-webkit-scrollbar {
+    display: none;
 }
 
 @media screen and (min-width: 1600px) {

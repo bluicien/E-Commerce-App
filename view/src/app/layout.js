@@ -16,13 +16,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StoreProvider>
           <div id="bgLayer">
-                <Navbar />
-                {children}
-                <Footer />
+            <StoreProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </StoreProvider>
           </div>
-        </StoreProvider>
       </body>
     </html>
   );

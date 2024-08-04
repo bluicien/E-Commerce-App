@@ -1,5 +1,5 @@
 .header {
-    height: 5rem;
+    height: 8vh;
 }
 
 .navBar {
@@ -50,7 +50,6 @@ button.dropBtn {
     overflow: hidden;
 }
 
-
 .dropdown .dropBtn {
     font-size: 1.2rem;
     font-family: inherit;
@@ -66,6 +65,9 @@ button.dropBtn {
 .navBar a:hover, .dropdown:hover .dropBtn {
     background-color: rgb(232, 214, 255);
     color: black;
+}
+
+.dropdown:hover .dropBtn {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }

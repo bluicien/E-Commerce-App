@@ -25,5 +25,6 @@ yarn-error.log*
 
 dbSchema.txt
 eg.js
+dbCommands.txt
 
 /swagger-editor

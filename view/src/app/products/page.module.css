@@ -1,11 +1,30 @@
 .productsPage {
     width: 80%;
-    height: 100%;
-    min-height: 100vh;
-    overflow-y: hidden;
+    height: 84vh;
+    overflow-y: scroll;
     background-color: rgba(240, 248, 255, 0.4);
     margin: auto;
     padding: 2rem;
+}
+
+/* width */
+.productsPage::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+.productsPage::-webkit-scrollbar-track {
+background: purple; 
+}
+
+/* Handle */
+.productsPage::-webkit-scrollbar-thumb {
+background: blueviolet; 
+}
+
+/* Handle on hover */
+.productsPage::-webkit-scrollbar-thumb:hover {
+background: #555; 
 }
 
 .pageHeader {

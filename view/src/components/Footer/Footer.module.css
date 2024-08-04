@@ -1,11 +1,10 @@
 .footer {
+    /* justify-self: flex-end; */
     display: flex;
     flex-direction: row;
     justify-content: left;
     align-items: center;
-    position: relative;
-    bottom: 0px;
-    height: 3rem;
+    height: 8vh;
     width: 100%;
     background-color:rgba(120, 60, 200, 0.5);
 }
