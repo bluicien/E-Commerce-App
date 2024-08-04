@@ -77,8 +77,8 @@ app.use(
         resave: false,
         cookie: {
             maxAge: 1000 * 60 * 60,
-            sameSite: 'none',
-            secure: true, // True for production
+            sameSite: process.env.RUN_ENV == "development" ? 'lax' : 'none', // lax for development
+            secure: process.env.RUN_ENV == "development" ? false : true, // false for development
             httpOnly: true
         },
         store: redisStore,
