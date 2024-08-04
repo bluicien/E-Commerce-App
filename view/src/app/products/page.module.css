@@ -1,5 +1,5 @@
 .productsPage {
-    width: 50%;
+    width: 80%;
     height: 100%;
     min-height: 100vh;
     overflow-y: hidden;
@@ -44,4 +44,10 @@
     background: linear-gradient(to right, #46464650 50%, #ffffff5e 75%);
     padding: 0.3rem 1rem;
     margin: 0 1rem;
+}
+
+@media screen and (min-width: 1600px) {
+    .productsPage {
+        width: 50%;
+    }
 }

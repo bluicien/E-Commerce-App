@@ -1,5 +1,5 @@
 .ordersPage {
-    width: 50%;
+    width: 80%;
     height: 100%;
     min-height: 100vh;
     overflow-y: hidden;
@@ -46,3 +46,8 @@
     margin: 0 1rem;
 }
 
+@media screen and (min-width: 1600px) {
+    .ordersPage {
+        width: 50%;
+    }
+}

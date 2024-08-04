@@ -2,6 +2,7 @@
 import { useState } from "react";
 import styles from "./AddToCartButton.module.css"
 import { useRouter } from "next/navigation";
+import { FaHeart } from "react-icons/fa6";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -55,7 +56,7 @@ export default function AddToCartButton({productId}) {
                     onChange={handleChange} 
                     min={0}
                 />
-                <a className={styles.wishlistBtn} >Wish</a>
+                <a className={styles.wishlistBtn} >Wish&nbsp;<FaHeart /></a>
             </div>
             <button className={styles.cartBtn} type="submit">ADD TO CART</button>
         </form>

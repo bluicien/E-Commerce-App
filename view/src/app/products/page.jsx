@@ -4,7 +4,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
-// import { useEffect, useState } from 'react';
+
 const BACKEND_URL = process.env.BACKEND_URL;
 
 export default async function ProductsPage() {

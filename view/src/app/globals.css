@@ -20,7 +20,9 @@
   box-sizing: border-box;
 }
 
+
 body {
+  margin: 0px;
   color: rgb(var(--foreground-rgb));
   background: url("../../public/mystic.jpg") no-repeat fixed;
   -webkit-background-size: cover;
@@ -37,7 +39,7 @@ body {
 }
 
 #bgLayer {
-  background: rgba(0, 1, 59, 0.836) repeat-y;
+  background: rgba(0, 1, 59, 0.322) repeat-y;
   background-size: cover;
   min-height: 100vh;
 }

@@ -46,17 +46,20 @@
 
 .wishlistBtn {
     width: 45%;
-    text-align: center;
-    padding-top: 5px;
-    background-color: #3b3eff;
-    border: outset rgb(59, 137, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+    background-color: #ff3b65;
+    border: outset rgb(29, 0, 18);
 }
 
 .wishlistBtn:hover {
-    background-color: rgb(59, 137, 255);
+    background-color: rgb(185, 0, 62);
 }
 
 .wishlistBtn:active {
     border: inset #a5a5a5;
-    background-color: #02006d;
+    color: red;
+    background-color: #460000;
 }

@@ -42,25 +42,29 @@ export default function Navbar() {
     const isAuthenticated = useAppSelector(state => state.authenticate.isAuthenticated);
     
     return (
-        <nav className={styles.navBar} >
-            <Link href="/" className={styles.navLogo}>E-Comm</Link>
-            <div className={styles.dropdown}>
-                <button className={styles.dropBtn} >Menu&nbsp;<IoIosArrowDropdownCircle /></button>
-                <div className={styles.dropdownContent}>
-                    <Link href="/products" >Products</Link>
-                    <Link href="/orders" >Orders</Link>
-                    <Link href="/" >Categories</Link>
+        <header className={styles.header} >
+            <nav className={styles.navBar} >
+                <Link href="/" className={styles.navLogo}>E-Comm</Link>
+                <div className={styles.dropdown}>
+                    <button className={styles.dropBtn} >Menu&nbsp;<IoIosArrowDropdownCircle /></button>
+                    <div className={styles.dropdownContent}>
+                        <Link href="/products" >Products</Link>
+                        <Link href="/orders" >Orders</Link>
+                        <Link href="/" >Categories</Link>
+                    </div>
                 </div>
-            </div>
-            {/* Will not render the user buttons until authentication check is complete to prevent buttons flickering */}
-            { !isLoading &&
-            <Suspense fallback={ <p>Is loading...</p>}>
-                {!isAuthenticated && <Link href={"/users/signup"} className={styles.navButtons}>Sign-Up</Link>}
-                {!isAuthenticated && <Link href={"/users/login"} className={styles.navButtons}>Login</Link>}
-                {isAuthenticated && <Link href={"/users/logout"} className={styles.navButtons}>Log Out</Link>}
-                {isAuthenticated && <Link href={"/cart"} className={styles.navButtons}>Cart</Link>}
-            </Suspense>
-            }
-        </nav>
+                {/* Will not render the user buttons until authentication check is complete to prevent buttons flickering */}
+                <div className={styles.userBtns} >
+                { !isLoading &&
+                <Suspense fallback={ <p>Is loading...</p>}>
+                    {!isAuthenticated && <Link href={"/users/signup"} className={styles.navButtons}>Sign-Up</Link>}
+                    {!isAuthenticated && <Link href={"/users/login"} className={styles.navButtons}>Login</Link>}
+                    {isAuthenticated && <Link href={"/users/logout"} className={styles.navButtons}>Log Out</Link>}
+                    {isAuthenticated && <Link href={"/cart"} className={styles.navButtons}>Cart</Link>}
+                </Suspense>
+                }
+                </div>
+            </nav>
+        </header>
     )
 }
