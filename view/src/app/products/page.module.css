@@ -47,6 +47,11 @@ background: #555;
 
 .thumbnail {
     border: 5px solid black;
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 150px;
+    max-height: 150px;
+    
 }
 
 .productInfo {
@@ -59,10 +64,15 @@ background: #555;
 
 }
 
-.productInfo * {
+.productDetail {
     background: linear-gradient(to right, #46464650 50%, #ffffff5e 75%);
     padding: 0.3rem 1rem;
     margin: 0 1rem;
+}
+
+.productDetail > span {
+    font-weight: bolder;
+    color: blanchedalmond;
 }
 
 @media screen and (min-width: 1600px) {

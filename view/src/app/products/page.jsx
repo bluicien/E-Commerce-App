@@ -32,7 +32,8 @@ export default async function ProductsPage() {
     // useEffect(() => {
     //     getProducts();
     // }, [])
-    
+    // /productImages/tip-top-icecream.png
+    // /productImages/tip-top-icecream-png
     return (
         <div>
             <h2 className={styles.pageHeader}>PRODUCTS</h2>
@@ -42,7 +43,7 @@ export default async function ProductsPage() {
                     <li key={`product-${product.id}`}>
                         <Link href={`/products/${product.id}`}>
                             <Image 
-                                src={"/Thumbnail.jpg"}
+                                src={`${product.url}`}
                                 alt={"Placeholder image"}
                                 width={150}
                                 height={150}
@@ -50,9 +51,9 @@ export default async function ProductsPage() {
                             ></Image>
                         </Link>
                         <div className={styles.productInfo}>
-                            <Link href={`/products/${product.id}`}>Product Name: {product.name}</Link>
-                            <p>Price: {product.price}</p>
-                            <p>Description: {product.description || "N/A"}</p>
+                            <Link href={`/products/${product.id}`} className={styles.productDetail} ><span id='brandname' >{product.brand_name}</span> {product.name}</Link>
+                            <p className={styles.productDetail} >Price: {product.price}</p>
+                            <p className={styles.productDetail} >Description: {product.description || "N/A"}</p>
                         </div>
                         <AddToCartButton productId={product.id} />
                     </li>

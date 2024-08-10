@@ -23,7 +23,13 @@ const getProducts = async (req, res) => {
     }
     // If there are no query parameters, assign given content to sql statement with no parameters.
     else {
-        text = 'SELECT * FROM products LIMIT 10'
+        text = 'SELECT products.*, brands.id as "brand_id", brands.name as "brand_name", brands.logo_id, product_images.url \
+            FROM products\
+            INNER JOIN brands\
+                ON products.brand_id = brands.id\
+            INNER JOIN product_images\
+                ON products.image_id = product_images.id;'
+            
     }
     
     try {
