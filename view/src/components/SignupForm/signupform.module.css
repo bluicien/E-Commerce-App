@@ -1,0 +1,61 @@
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.inputGroup > label {
+    font-size: 1.5rem;
+}
+
+.inputGroup > input {
+    margin-left: auto;
+    background-color: gainsboro;
+    color: black;
+    border-radius: 5px;
+    font-size: 1rem;
+    align-self: center;
+    padding: 0.5rem;
+    width: 40%;
+}
+
+.signupForm button {
+    align-self: center;
+    background-color: blue;
+    width: 30%;
+    height: 4rem;
+    font-size: 2rem;
+    border: 1.5px solid white;
+    border-radius: 1rem;
+    margin-top: 2.5rem;
+}
+
+.signupForm button:hover {
+    background-color: rgb(0, 0, 163);
+}
+
+.signupForm button:active {
+    background-color: gray;
+
+}
+
+.tosCheckbox {
+    margin-top: 1rem;
+}
+
+label.tosText {
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+button.disabledBtn, 
+button.disabledBtn:hover,
+button.disabledBtn:active {
+    background-color: gray;
+}

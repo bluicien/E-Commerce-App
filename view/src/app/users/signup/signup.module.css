@@ -10,42 +10,20 @@
     font-size: 4rem;
 }
 
-.signupForm {
-    display: flex;
-    flex-direction: column;
-}
-
-.signupForm label {
-    font-size: 2rem;
-    margin-top: 1rem;
-}
-
-.signupForm input {
-    background-color: gainsboro;
-    color: black;
-    border-radius: 5px;
-    font-size: 2rem;
-    align-self: center;
-    padding: 0.8rem;
-    width: 100%;
-}
-
-.signupForm button {
-    align-self: center;
-    background-color: blue;
-    width: 30%;
-    height: 4rem;
-    font-size: 2rem;
-    border: 1.5px solid white;
-    border-radius: 1rem;
-    margin-top: 2.5rem;
-}
-
-.signupForm button:hover {
-    background-color: rgb(0, 0, 163);
-}
-
-.signupForm button:active {
+.accountTypeBtn {
+    margin: 10px 10px 20px 0px;
+    padding: 0.5rem 1.2rem;
     background-color: gray;
+    border: 2px outset rgb(73, 73, 73);
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-family: inherit;
+    color: white;
+    width: 150px;
+}
 
+.activeBtn {
+    border: 2px inset black;
+    background-color: #6025ad;
+    box-shadow: inset 1px 1px#3f1872;
 }
