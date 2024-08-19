@@ -23,7 +23,7 @@ const userExists = async (req, res, next) => {
 // Then makes a database query to insert into users database.
 const registerUser = async (req, res) => {
     const { username, password, firstName, lastName, email } = req.body;
-    const hashedPassword = await auth.passwordHash(password, 10)
+    const hashedPassword = await auth.passwordHash(password, 10);
     const values = [username, hashedPassword, firstName, lastName, email];
     const text = "INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5) RETURNING *";
     try {
@@ -33,6 +33,48 @@ const registerUser = async (req, res) => {
         console.log(error);
         res.status(500).json({msg: "An unexpected error occurred."}) 
     }
+}
+
+// Register a new organization
+const registerOrganization = async (req, res) => {
+    const { organization, username, password, firstName, lastName, email } = req.body; //Destructure request body
+    const hashedPassword = await auth.passwordHash(password, 10); // Hash password with 10x salt rounds
+    const values = [username, hashedPassword, firstName, lastName, email, 3] // Store "INSERT" data in array
+    const newUser = "INSERT INTO users (username, password, first_name, last_name, email, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *"; // Prepare SQL insert statement
+    try {
+        const results1 = await db.query(newUser, values);
+        console.log(results1.rows)
+        // If new user insert is a success. Continue to insert into organization table.
+        // Otherwise throw error
+        if (results1.rows.length > 0) {
+            const newUserId = results1.rows[0].id; // Get new user ID from previous DB query
+            const newOrganization = "INSERT INTO organizations (name) VALUES ($1) RETURNING id as id, name"; // Insert statement for organization table
+            
+            // Insert statement for user-organization cross reference table
+            const users_organization = "INSERT INTO users_organizations (user_id, organization_id, is_admin) VALUES ($1, $2, $3) RETURNING user_id, is_admin, can_edit"; 
+            
+            const results2 = await db.query(newOrganization, [organization]); // Create new Organization
+            console.log(results2.rows)
+            const results3 = await db.query(users_organization, [newUserId, results2.rows[0].id, true]); // Insert into user-organization cross reference table.
+            console.log(results3.rows)
+
+            // If database insert is a success, store data in createdOrganization variable and attach to response.
+            // If insert failed, throw error
+            if (results3.rows.length > 0) {
+                const createdOrganization = {
+                    user: results1.rows[0],
+                    organization: {...results2.rows[0], ...results3.rows[0]}
+                }
+                res.status(201).json(createdOrganization);
+            } 
+            else throw Error("Failed to create organization")
+        }
+        else throw Error("Failed to create new user")
+    } catch (error) {
+        // If database insert failed, respond with 500 server error.
+        res.status(500).json(error)
+    }
+
 }
 
 // User id parameter middleware. Takes the id parameter from request and checks if a user exists.
@@ -116,6 +158,7 @@ module.exports = {
     userExists,
     userIdParam,
     registerUser,
+    registerOrganization,
     getUserById,
     updateUser,
     deleteUser,
