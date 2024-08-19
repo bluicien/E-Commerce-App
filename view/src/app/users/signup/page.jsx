@@ -16,6 +16,7 @@ export default function Signup() {
 
     // State for manage controlled registration form
     const [ registrationForm, setRegistrationForm ] = useState({
+        organization: "",
         username: "",
         password: "",
         confirmPassword: "",
@@ -46,7 +47,7 @@ export default function Signup() {
     }
 
     // Handle submission of form and post request to backend server
-    const handleRegistration = async (formBody) => {
+    const handleRegistration = async () => {
 
         // If passwords do not match, function returns and does not continue
         if (registrationForm.password !== registrationForm.confirmPassword) {
@@ -56,7 +57,8 @@ export default function Signup() {
 
         // Try post fetch request to backend server route "/users/register"
         try {
-            const response = await fetch(`${BACKEND_URL}/users/register`, {
+            const registrationEndpoint = normalUser ? "register" : "registerOrganization";
+            const response = await fetch(`${BACKEND_URL}/users/${registrationEndpoint}`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { "Content-Type": "application/json" },

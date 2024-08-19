@@ -20,8 +20,8 @@ export default function Navbar() {
     
     // Fetcher function to send request to check if user is still authenticated
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res);
-    // On page refresh, send session cookie from browser to backend to check if user is still authenticated. 
 
+    // On page refresh, send session cookie from browser to backend to check if user is still authenticated. 
     const { data, error, isLoading } = useSWR(`${BACKEND_URL}/isAuth`, fetcher);
     
     if (error) console.log(error);
@@ -49,7 +49,7 @@ export default function Navbar() {
                     <button className={styles.dropBtn} >Menu&nbsp;<IoIosArrowDropdownCircle /></button>
                     <div className={styles.dropdownContent}>
                         <Link href="/products" >Products</Link>
-                        <Link href="/orders" >Orders</Link>
+                        {isAuthenticated && <Link href="/orders" >Orders</Link>}
                         <Link href="/" >Categories</Link>
                     </div>
                 </div>

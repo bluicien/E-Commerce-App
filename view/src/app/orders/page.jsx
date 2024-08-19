@@ -4,6 +4,8 @@
 import useSWR from "swr";
 import styles from "./page.module.css";
 import OrdersTable from "@/components/OrdersTable/OrdersTable";
+import { useAppSelector } from "../lib/hooks";
+import { redirect } from "next/navigation";
 
 // Backend base URL
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
@@ -14,10 +16,16 @@ const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => re
 // Renders Orders Page
 export default function OrdersPage() {
 
+    const isAuthenticated = useAppSelector(state => state.authenticate.isAuthenticated);
+    if (!isAuthenticated) {
+        return redirect("/users/login");
+    }
+
+    // Api get request to backend to retrieve orders data
     const { data, error, isLoading } = useSWR(`${BACKEND_URL}/orders`, fetcher);
 
     if (error) console.log(error);
-
+    console.log(data)
 
     return (
         <div>
@@ -26,7 +34,7 @@ export default function OrdersPage() {
 
             {/* If data is still loading, render a "Loading..." message. 
                 Once loaded render OrdersTable component */}
-            { isLoading ? <p>Loading...</p> : <OrdersTable ordersData={data} /> }
+            { isLoading ? <p>Loading...</p> : !data ? <p>No Orders...</p> : <OrdersTable ordersData={data} /> }
         </div>
     );
 }
