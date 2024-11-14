@@ -1,6 +1,7 @@
 .productsPage {
-    width: 80%;
-    height: 84vh;
+    width: 50%;
+    height: 100%;
+    min-height: 100vh;
     overflow-y: scroll;
     background-color: rgba(240, 248, 255, 0.4);
     margin: auto;
@@ -46,11 +47,13 @@ background: #555;
 }
 
 .thumbnail {
-    border: 5px solid black;
     min-width: 150px;
-    max-width: 150px;
     min-height: 150px;
+    max-width: 150px;
     max-height: 150px;
+    object-fit: contain;
+    background-color: #333;
+    border: 5px solid black;
     
 }
 

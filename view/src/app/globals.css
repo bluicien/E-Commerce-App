@@ -16,6 +16,10 @@
   }
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -30,7 +34,6 @@ body {
   -ms-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-y: hidden;
   /* background: linear-gradient(
       to bottom,
       transparent,

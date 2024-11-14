@@ -11,7 +11,7 @@ export default function Cart({cartData}) {
                 <li key={product.product_id}>
                 <Link href={`/products/${product.product_id}`}>
                     <Image 
-                        src={"/Thumbnail.jpg"}
+                        src={product.url}
                         alt={"Placeholder image"}
                         width={150}
                         height={150}

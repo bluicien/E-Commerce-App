@@ -11,15 +11,6 @@ export default async function ProductsPage() {
 
     console.log("Rendering Server Component ProductsPage...")
 
-    // const [ products, setProducts ] = useState([]);
-
-    // const getProducts = async () => {
-    //     const response = await fetch('api/products');
-    //     const result = await response.json();
-    //     setProducts(result);
-    //     return;
-    // }
-
     const getProducts = async () => {
         console.log("GET products...")
         const response = await fetch(`${BACKEND_URL}/products`, { cache: 'no-store'} )
@@ -27,13 +18,7 @@ export default async function ProductsPage() {
         return products;
     }
 
-    const products = await getProducts();
-
-    // useEffect(() => {
-    //     getProducts();
-    // }, [])
-    // /productImages/tip-top-icecream.png
-    // /productImages/tip-top-icecream-png
+    const products = await getProducts()
     return (
         <div>
             <h2 className={styles.pageHeader}>PRODUCTS</h2>

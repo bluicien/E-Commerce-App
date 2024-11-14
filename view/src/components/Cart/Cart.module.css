@@ -17,7 +17,11 @@
 }
 
 .thumbnail {
+    object-fit: contain;
+    background-color: #333;
     border: 5px solid black;
+    width: 150px;
+    height: 150px;
 }
 
 .productInfo {

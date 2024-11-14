@@ -8,7 +8,6 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 // Art Add to Cart button, handles functionality of sending PUT request to update cart
 export default function AddToCartButton({productId}) {
-    
     const router = useRouter();
     const [ quantity, setQuantity ] = useState(1);
     

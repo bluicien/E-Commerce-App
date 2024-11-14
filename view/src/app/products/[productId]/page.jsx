@@ -14,8 +14,9 @@ export default async function ProductPage({params}) {
     const productId = params.productId;
     
     // Fetch product details from backend with params productId
-    const response = await fetch(`${BACKEND_URL}/products/${productId}`)
+    const response = await fetch(`${BACKEND_URL}/products/${productId}`, { cache: 'no-store'} )
     const product = await response.json();
+    console.log(product)
 
     return (
         // Product Page Section
@@ -26,7 +27,7 @@ export default async function ProductPage({params}) {
 
                 {/* Product Image */}
                 <Image 
-                    src={"/Thumbnail.jpg"}
+                    src={product.url}
                     alt={"Placeholder image"}
                     width={400}
                     height={400}
@@ -44,7 +45,7 @@ export default async function ProductPage({params}) {
                     {/* Purchase/Wishlist section after divider */}
                     <hr className={styles.buttonsDivider} />
                     <div className={styles.buttons}>
-                        <AddToCartButton />
+                        <AddToCartButton productId={product.id} />
                     </div>
                 </section>
             </div>

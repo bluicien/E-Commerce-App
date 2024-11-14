@@ -5,19 +5,22 @@ const getCart = async (req, res) => {
 
     // SQL select statement to retrieve cart_id, product_id, product name, product description product quantity
     // in cart and product line total by merging tables cart_products, cart and products by user.
-    const text = 'SELECT \
-        c.id AS cart_id,\
-        p.id AS product_id,\
-        p.name, \
-        p.description,\
-        cp.quantity,\
-        (cp.quantity * p.price) AS line_total\
-    FROM cart_products AS cp\
-    JOIN cart AS c\
-        ON c.id = cp.cart_id\
-    JOIN products AS p\
-        ON cp.product_id = p.id\
-    WHERE c.user_id = $1'
+    const text = 'SELECT\
+                    c.id AS cart_id,\
+                p.id AS product_id,\
+                p.name,\
+                p.description,\
+                p_img.url AS url,\
+                cp.quantity,\
+                (cp.quantity * p.price) AS line_total\
+                FROM cart_products AS cp\
+                INNER JOIN cart AS c\
+                    ON c.id = cp.cart_id\
+                INNER JOIN products AS p\
+                    ON cp.product_id = p.id\
+                INNER JOIN product_images AS p_img\
+                    ON p.image_id = p_img.id\
+                WHERE c.user_id = $1';
     
     // User id from request set as argument in parameters array.
     const parameters = [req.user.id]

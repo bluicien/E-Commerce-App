@@ -23,7 +23,15 @@ const getProducts = async (req, res) => {
     }
     // If there are no query parameters, assign given content to sql statement with no parameters.
     else {
-        text = 'SELECT products.*, brands.id as "brand_id", brands.name as "brand_name", brands.logo_id, product_images.url \
+        text = 'SELECT products.id,\
+                products.name,\
+                products.description,\
+                products.price,\
+                products.image_id,\
+                brands.id as "brand_id",\
+                brands.name as "brand_name",\
+                brands.logo_id,\
+                product_images.url\
             FROM products\
             INNER JOIN brands\
                 ON products.brand_id = brands.id\
@@ -77,8 +85,13 @@ const productIdParam = async (req, res, next, id) => {
 
 // Query database for product with id matching the req.productId and return the product 
 const getProductById = async (req, res) => {
+    console.log("TEST")
+    const text = 'SELECT * FROM products\
+                INNER JOIN product_images AS p_img\
+                    ON products.image_id = p_img.id\
+                WHERE products.id = $1'
     try {
-        const results = await db.query('SELECT * FROM products WHERE id = $1', [req.productId]);
+        const results = await db.query(text, [req.productId]);
         res.status(200).json(results.rows[0]);
     } 
     // If error, return status code 500
